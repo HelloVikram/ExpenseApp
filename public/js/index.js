@@ -85,3 +85,53 @@ document.getElementById("forgetpasswordform").addEventListener("submit", async (
   }
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  const token = localStorage.getItem("token");
+
+  const loginBtn = document.querySelector('[data-bs-target="#loginmodal"]');
+  const signupBtn = document.querySelector('[data-bs-target="#signupmodal"]');
+
+
+  const logoutLi = document.createElement("li");
+  logoutLi.className = "nav-item";
+  const logoutBtn = document.createElement("button");
+  logoutBtn.className = "btn btn-danger";
+  logoutBtn.innerText = "Logout";
+  logoutBtn.onclick = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/"; 
+  };
+  logoutLi.appendChild(logoutBtn);
+
+  const navbarRight = document.querySelector(".navbar-nav.ms-auto");
+
+  if (token) {
+    
+    if (loginBtn) loginBtn.parentElement.style.display = "none";
+    if (signupBtn) signupBtn.parentElement.style.display = "none";
+    navbarRight.appendChild(logoutLi);
+  }
+});
+
+document.getElementById("start-tracking")?.addEventListener("click", () => {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    window.location.href = "/expense";
+  } else {
+    const loginModal = new bootstrap.Modal(document.getElementById("loginmodal"));
+    loginModal.show();
+  }
+});
+
+document.getElementById("nav-expense-link")?.addEventListener("click", (e) => {
+  e.preventDefault();
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    window.location.href = "/expense";
+  } else {
+    const loginModal = new bootstrap.Modal(document.getElementById("loginmodal"));
+    loginModal.show();
+  }
+});
